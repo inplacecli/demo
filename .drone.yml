@@ -1,0 +1,22 @@
+pipeline:
+  build:
+    image: composer/composer:latest
+    commands:
+      # phpunit
+      - curl -LO --silent https://phar.phpunit.de/phpunit.phar
+      - chmod +x phpunit.phar
+      - mv phpunit.phar /usr/local/bin/phpunit
+
+      # versions
+      - php -v
+      - git --version
+      - composer --version
+      - phpunit --version
+
+      # dependencies, tests.
+      - composer install
+      - phpunit -c ./
+
+  cache:
+    mount:
+      - vendor
